@@ -2,6 +2,8 @@ package com.zxh.community.service;
 
 import com.zxh.community.entity.User;
 
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  *
@@ -10,4 +12,8 @@ import com.zxh.community.entity.User;
  */
 public interface UserService {
     User findUserById(int id);
+
+    Map<String, Object> register(User user);
+
+    int activation(int userId, String code);
 }

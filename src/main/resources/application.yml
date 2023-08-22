@@ -43,3 +43,8 @@ logging:
         community: debug
   file:
     path: D:/logout/logs/
+
+# 自定义属性
+community:
+  path:
+    domain: http://localhost:8080

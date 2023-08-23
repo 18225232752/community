@@ -16,4 +16,10 @@ public interface CommunityConstant {
 
     // 重复激活
     int ACTIVATION_FAILURE = 2;
+
+    // 登录凭证默认有效时长(12小时)
+    int DEFAULT_EXPIRED_SECONDS = 3600 * 12;
+
+    // 登录凭证"记住我"状态有效时长
+    int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 100;
 }

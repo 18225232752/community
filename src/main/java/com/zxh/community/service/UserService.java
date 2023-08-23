@@ -1,6 +1,8 @@
 package com.zxh.community.service;
 
+import com.zxh.community.entity.LoginTicket;
 import com.zxh.community.entity.User;
+import com.zxh.community.mapper.LoginTicketMapper;
 
 import java.util.Map;
 
@@ -16,4 +18,12 @@ public interface UserService {
     Map<String, Object> register(User user);
 
     int activation(int userId, String code);
+
+    Map<String, Object> login(String username, String password, int expiredSeconds);
+
+    void logout(String ticket);
+
+    LoginTicket findLoginTicket(String ticket);
+
+    int updateHeader(int userId, String headerUrl);
 }

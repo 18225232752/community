@@ -1,8 +1,11 @@
 package com.zxh.community.controller;
 
+import com.google.code.kaptcha.Producer;
 import com.zxh.community.entity.User;
 import com.zxh.community.service.UserService;
 import com.zxh.community.util.CommunityConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -21,8 +30,14 @@ import java.util.Map;
  */
 @Controller
 public class LoginController implements CommunityConstant {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Resource(name = "userServiceImpl")
     private UserService userService;
+
+    @Autowired
+    private Producer kaptchaProducer;
 
     @GetMapping("/register")
     public String getRegisterPage() {
@@ -69,5 +84,24 @@ public class LoginController implements CommunityConstant {
         model.addAttribute("msg", msg);
         model.addAttribute("target", target);
         return "/site/operate-result";
+    }
+
+    @GetMapping("/kaptcha")
+    public void getKaptcha(HttpServletResponse resp, HttpSession session) {
+        // 生成验证码
+        String text = kaptchaProducer.createText();
+        BufferedImage image = kaptchaProducer.createImage(text);
+
+        // 验证码文本存入session
+        session.setAttribute("kaptcha", text);
+
+        // 验证码图片响应给浏览器
+        resp.setContentType("image/png");
+        try {
+            ServletOutputStream out = resp.getOutputStream();
+            ImageIO.write(image, "png", out);
+        } catch (IOException e) {
+            logger.error("响应验证码失败：" + e.getMessage());
+        }
     }
 }

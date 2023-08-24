@@ -1,5 +1,6 @@
 package com.zxh.community.controller;
 
+import com.zxh.community.annotation.LoginRequired;
 import com.zxh.community.entity.User;
 import com.zxh.community.service.UserService;
 import com.zxh.community.util.CommunityUtil;
@@ -48,11 +49,14 @@ public class UserController {
     @Resource(name = "hostHolder")
     private HostHolder hostHolder;
 
+    @LoginRequired
     @GetMapping("/setting")
     public String getSettingPage() {
         return "/site/setting";
     }
 
+
+    @LoginRequired
     @PostMapping("/upload")
     public String uploadHeader(MultipartFile headerImage, Model model) {
         if (headerImage == null) {

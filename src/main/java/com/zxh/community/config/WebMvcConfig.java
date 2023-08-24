@@ -1,5 +1,6 @@
 package com.zxh.community.config;
 
+import com.zxh.community.controller.interceptor.LoginRequiredInterceptor;
 import com.zxh.community.controller.interceptor.LoginTicketInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,9 +20,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Resource(name = "loginTicketInterceptor")
     private LoginTicketInterceptor loginTicketInterceptor;
 
+    @Resource(name = "loginRequiredInterceptor")
+    private LoginRequiredInterceptor loginRequiredInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginTicketInterceptor)
+                .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
+
+        registry.addInterceptor(loginRequiredInterceptor)
                 .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
     }
 }

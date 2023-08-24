@@ -16,13 +16,13 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private Integer id;
+    private int id;
     private String username;
     private String password;
     private String salt;
     private String email;
-    private Integer type;
-    private Integer status;
+    private int type;
+    private int status;
     private String activationCode;
     private String headerUrl;
     private Date createTime;

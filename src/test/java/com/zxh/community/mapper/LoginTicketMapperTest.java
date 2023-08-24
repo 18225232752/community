@@ -29,7 +29,7 @@ public class LoginTicketMapperTest {
 
     @Test
     public void testInsertLoginTicket() {
-        LoginTicket loginTicket = new LoginTicket(null,
+        LoginTicket loginTicket = new LoginTicket(0,
                 101,
                 "test",
                 0,

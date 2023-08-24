@@ -16,9 +16,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginTicket {
-    private Integer id;
-    private Integer userId;
+    private int id;
+    private int userId;
     private String ticket;
-    private Integer status;
+    private int status;
     private Date expired;
 }

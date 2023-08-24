@@ -185,5 +185,8 @@ public class UserServiceImpl implements UserService, CommunityConstant {
         return userMapper.updateHeader(userId, headerUrl);
     }
 
-
+    @Override
+    public int updatePassword(int userId, String password) {
+        return userMapper.updatePassword(userId, password);
+    }
 }

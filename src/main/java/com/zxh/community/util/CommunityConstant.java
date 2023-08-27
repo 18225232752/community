@@ -22,4 +22,10 @@ public interface CommunityConstant {
 
     // 登录凭证"记住我"状态有效时长
     int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 100;
+
+    // 实体类型：帖子
+    int ENTITY_TYPE_POST = 1;
+
+    // 实体类型：评论
+    int ENTITY_TYPE_COMMENT = 2;
 }

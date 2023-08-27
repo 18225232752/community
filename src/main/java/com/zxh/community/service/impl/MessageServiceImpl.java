@@ -3,7 +3,9 @@ package com.zxh.community.service.impl;
 import com.zxh.community.entity.Message;
 import com.zxh.community.mapper.MessageMapper;
 import com.zxh.community.service.MessageService;
+import com.zxh.community.util.SensitiveFilter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,6 +21,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Resource(name = "messageMapper")
     private MessageMapper messageMapper;
+
+    @Resource(name = "sensitiveFilter")
+    private SensitiveFilter sensitiveFilter;
 
     @Override
     public List<Message> findConversations(int userId, int offset, int limit) {
@@ -43,5 +48,17 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public int findLetterUnreadCount(int userId, String conversationId) {
         return messageMapper.selectLetterUnreadCount(userId, conversationId);
+    }
+
+    @Override
+    public int addMessage(Message message) {
+        message.setContent(HtmlUtils.htmlEscape(message.getContent()));
+        message.setContent(sensitiveFilter.filter(message.getContent()));
+        return messageMapper.insertMessage(message);
+    }
+
+    @Override
+    public int readMessage(List<Integer> ids) {
+        return messageMapper.updateStatus(ids, 1);
     }
 }

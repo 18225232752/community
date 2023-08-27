@@ -28,4 +28,6 @@ public interface UserService {
     int updateHeader(int userId, String headerUrl);
 
     int updatePassword(int userId, String password);
+
+    User findUserByName(String username);
 }

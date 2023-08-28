@@ -27,6 +27,11 @@ spring:
         smtp:
           ssl:
             enable: true
+  redis:
+    host: 192.168.206.141
+    password: 123456
+    port: 6379
+    database: 11
 
 mybatis:
   mapper-locations: classpath:com/zxh/community/mapper/*.xml
@@ -49,3 +54,4 @@ community:
   path:
     domain: http://localhost:8080
     upload: D:/upload/
+

@@ -4,7 +4,9 @@ import com.zxh.community.entity.DiscussPost;
 import com.zxh.community.entity.Page;
 import com.zxh.community.entity.User;
 import com.zxh.community.service.DiscussPostService;
+import com.zxh.community.service.LikeService;
 import com.zxh.community.service.UserService;
+import com.zxh.community.util.CommunityConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +25,16 @@ import java.util.Map;
  * @date 2023/8/21 18:50
  */
 @Controller
-public class IndexController {
+public class IndexController implements CommunityConstant {
 
     @Resource(name = "discussPostServiceImpl")
     private DiscussPostService discussPostService;
 
     @Resource(name = "userServiceImpl")
     private UserService userService;
+
+    @Resource(name = "likeServiceImpl")
+    private LikeService likeService;
 
     @GetMapping("/index")
     public String index(Model model, Page page) {
@@ -47,6 +52,10 @@ public class IndexController {
                 map.put("post", post);
                 User user = userService.findUserById(post.getUserId());
                 map.put("user", user);
+
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+                map.put("likeCount", likeCount);
+
                 discussPosts.add(map);
             }
         }

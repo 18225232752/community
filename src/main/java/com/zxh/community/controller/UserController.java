@@ -2,8 +2,10 @@ package com.zxh.community.controller;
 
 import com.zxh.community.annotation.LoginRequired;
 import com.zxh.community.entity.User;
+import com.zxh.community.service.FollowService;
 import com.zxh.community.service.LikeService;
 import com.zxh.community.service.UserService;
+import com.zxh.community.util.CommunityConstant;
 import com.zxh.community.util.CommunityUtil;
 import com.zxh.community.util.HostHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +34,7 @@ import java.io.*;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements CommunityConstant {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Value("${community.path.upload}")
@@ -52,6 +54,9 @@ public class UserController {
 
     @Resource(name = "likeServiceImpl")
     private LikeService likeService;
+
+    @Resource(name = "followServiceImpl")
+    private FollowService followService;
 
     @LoginRequired
     @GetMapping("/setting")
@@ -182,6 +187,22 @@ public class UserController {
         // 点赞数量
         int likeCount = likeService.findUserLikeCount(userId);
         model.addAttribute("likeCount", likeCount);
+
+        // 关注数量
+        long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount", followeeCount);
+
+        // 粉丝数量
+        long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount", followerCount);
+
+        // 是否已关注
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null) {
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+        }
+        model.addAttribute("hasFollowed", hasFollowed);
+
 
         return "/site/profile";
     }

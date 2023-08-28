@@ -2,6 +2,7 @@ package com.zxh.community.controller;
 
 import com.zxh.community.annotation.LoginRequired;
 import com.zxh.community.entity.User;
+import com.zxh.community.service.LikeService;
 import com.zxh.community.service.UserService;
 import com.zxh.community.util.CommunityUtil;
 import com.zxh.community.util.HostHolder;
@@ -48,6 +49,9 @@ public class UserController {
 
     @Resource(name = "hostHolder")
     private HostHolder hostHolder;
+
+    @Resource(name = "likeServiceImpl")
+    private LikeService likeService;
 
     @LoginRequired
     @GetMapping("/setting")
@@ -165,4 +169,20 @@ public class UserController {
         return "redirect:/index";
     }
 
+    // 个人主页
+    @GetMapping("/profile/{userId}")
+    public String getProfilePage(@PathVariable int userId, Model model) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在！");
+        }
+
+        // 用户
+        model.addAttribute("user", user);
+        // 点赞数量
+        int likeCount = likeService.findUserLikeCount(userId);
+        model.addAttribute("likeCount", likeCount);
+
+        return "/site/profile";
+    }
 }

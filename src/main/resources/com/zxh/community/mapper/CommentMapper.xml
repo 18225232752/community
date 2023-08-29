@@ -40,4 +40,11 @@
         insert into comment(<include refid="commentInsertColumn"/>)
             values (#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
     </insert>
+
+    <select id="selectCommentById" resultType="comment">
+        select
+        <include refid="commentAllColumn"/>
+        from comment
+        where id = #{id}
+    </select>
 </mapper>

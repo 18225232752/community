@@ -1,9 +1,7 @@
 package com.zxh.community.controller;
 
-import com.zxh.community.entity.Comment;
-import com.zxh.community.entity.DiscussPost;
-import com.zxh.community.entity.Page;
-import com.zxh.community.entity.User;
+import com.zxh.community.entity.*;
+import com.zxh.community.event.EventProducer;
 import com.zxh.community.service.CommentService;
 import com.zxh.community.service.DiscussPostService;
 import com.zxh.community.service.LikeService;
@@ -44,6 +42,9 @@ public class DiscussPostController implements CommunityConstant {
     @Resource(name = "likeServiceImpl")
     private LikeService likeService;
 
+    @Resource(name = "eventProducer")
+    private EventProducer eventProducer;
+
     @PostMapping("/add")
     @ResponseBody
     public String addDiscussPost(String title, String content) {
@@ -58,6 +59,14 @@ public class DiscussPostController implements CommunityConstant {
         post.setContent(content);
         post.setCreateTime(new Date());
         discussPostService.addDiscussPost(post);
+
+        // 触发发帖事件
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(post.getId());
+        eventProducer.fireEvent(event);
 
         return CommunityUtil.getJSONString(0, "发布成功！");
     }

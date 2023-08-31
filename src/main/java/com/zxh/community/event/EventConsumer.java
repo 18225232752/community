@@ -2,8 +2,11 @@ package com.zxh.community.event;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.bcel.internal.generic.PUSH;
+import com.zxh.community.entity.DiscussPost;
 import com.zxh.community.entity.Event;
 import com.zxh.community.entity.Message;
+import com.zxh.community.service.DiscussPostService;
+import com.zxh.community.service.ElasticsearchService;
 import com.zxh.community.service.MessageService;
 import com.zxh.community.util.CommunityConstant;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -29,6 +32,12 @@ public class EventConsumer implements CommunityConstant {
 
     @Resource(name = "messageServiceImpl")
     private MessageService messageService;
+
+    @Resource(name = "discussPostServiceImpl")
+    private DiscussPostService discussPostService;
+
+    @Resource(name = "elasticsearchServiceImpl")
+    private ElasticsearchService elasticsearchService;
 
     @KafkaListener(topics = {TOPIC_COMMENT, TOPIC_LIKE, TOPIC_FOLLOW})
     public void handleCommentMessage(ConsumerRecord record) {
@@ -62,5 +71,23 @@ public class EventConsumer implements CommunityConstant {
         }
         message.setContent(JSONObject.toJSONString(content));
         messageService.addMessage(message);
+    }
+
+    // 消费发帖事件
+    @KafkaListener(topics = {TOPIC_PUBLISH})
+    public void handlePublishMessage(ConsumerRecord record) {
+        if (record == null || record.value() == null) {
+            logger.error("消息的内容为空！");
+            return;
+        }
+
+        Event event = JSONObject.parseObject(record.value().toString(), Event.class);
+        if (event == null) {
+            logger.error("消息格式错误！");
+            return;
+        }
+
+        DiscussPost post = discussPostService.findDiscussPostById(event.getEntityId());
+        elasticsearchService.saveDiscussPost(post);
     }
 }

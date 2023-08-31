@@ -38,5 +38,5 @@ public class DiscussPost {
     @Field(type = FieldType.Integer)
     private int commentCount;
     @Field(type = FieldType.Double)
-    private Double score;
+    private double score;
 }

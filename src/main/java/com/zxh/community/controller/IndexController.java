@@ -67,4 +67,10 @@ public class IndexController implements CommunityConstant {
     public String getErrorPage() {
         return "/error/500";
     }
+
+    // 拒绝访问(未获得授权)
+    @GetMapping("/denied")
+    public String getDeniedPage() {
+        return "/error/404";
+    }
 }

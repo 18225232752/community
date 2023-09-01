@@ -3,7 +3,9 @@ package com.zxh.community.service;
 import com.zxh.community.entity.LoginTicket;
 import com.zxh.community.entity.User;
 import com.zxh.community.mapper.LoginTicketMapper;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -30,4 +32,6 @@ public interface UserService {
     int updatePassword(int userId, String password);
 
     User findUserByName(String username);
+
+    Collection<? extends GrantedAuthority> getAuthorities(int userId);
 }

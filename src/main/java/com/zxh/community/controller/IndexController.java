@@ -10,6 +10,7 @@ import com.zxh.community.util.CommunityConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -37,14 +38,16 @@ public class IndexController implements CommunityConstant {
     private LikeService likeService;
 
     @GetMapping("/index")
-    public String index(Model model, Page page) {
+    public String index(Model model, Page page,
+                        @RequestParam(defaultValue = "0") int orderMode) {
         // SpringMVC会自动实例化Model与Page，并将Page注入Model
         // 获取记录总行数
         page.setRows(discussPostService.findDiscussPostRows(0));
         // 设置分页查询路径
-        page.setPath("/index");
+        page.setPath("/index?orderMode=" + orderMode);
 
-        List<DiscussPost> discussPostList = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        List<DiscussPost> discussPostList = discussPostService
+                .findDiscussPosts(0, page.getOffset(), page.getLimit(), orderMode);
         List<Map<String, Object>> discussPosts = new ArrayList<>();
         if (discussPostList != null) {
             for (DiscussPost post : discussPostList) {
@@ -60,6 +63,7 @@ public class IndexController implements CommunityConstant {
             }
         }
         model.addAttribute("discussPosts", discussPosts);
+        model.addAttribute("orderMode", orderMode);
         return "/index";
     }
 

@@ -7,6 +7,8 @@ import com.zxh.community.service.LikeService;
 import com.zxh.community.util.CommunityConstant;
 import com.zxh.community.util.CommunityUtil;
 import com.zxh.community.util.HostHolder;
+import com.zxh.community.util.RedisKeyUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +34,9 @@ public class LikeController implements CommunityConstant {
 
     @Resource(name = "hostHolder")
     private HostHolder hostHolder;
+
+    @Resource(name = "redisTemplate")
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/like")
     @ResponseBody
@@ -63,6 +68,11 @@ public class LikeController implements CommunityConstant {
             eventProducer.fireEvent(event);
         }
 
+        if (entityType == ENTITY_TYPE_POST) {
+            // 帖子id写入redis以重新计算分数
+            String postScoreKey = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(postScoreKey, postId);
+        }
         return CommunityUtil.getJSONString(0, null, map);
     }
 }

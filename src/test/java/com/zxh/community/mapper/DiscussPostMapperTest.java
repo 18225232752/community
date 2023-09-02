@@ -29,9 +29,9 @@ public class DiscussPostMapperTest {
 
     @Test
     public void testSelectDiscussPosts() {
-        List<DiscussPost> discussPostList = discussPostMapper.selectDiscussPosts(0, 0, 10);
+        List<DiscussPost> discussPostList = discussPostMapper.selectDiscussPosts(0, 0, 10, 0);
         discussPostList.forEach(System.out::println);
-        discussPostList = discussPostMapper.selectDiscussPosts(149, 0, 10);
+        discussPostList = discussPostMapper.selectDiscussPosts(149, 0, 10, 0);
         discussPostList.forEach(System.out::println);
     }
 

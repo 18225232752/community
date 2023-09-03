@@ -104,5 +104,9 @@ qiniu:
     share:
       name: community-share20230903
       url: http://s0e0nk0k5.hn-bkt.clouddn.com
+caffeine:
+  posts:
+    max-size: 15
+    expire-seconds: 180
 
 

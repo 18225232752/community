@@ -93,5 +93,16 @@ wk:
   image:
     command: E:/wkhtmltox/wkhtmltopdf/bin/wkhtmltoimage
     storage: D:/dir/wk-images/
+qiniu:
+  key:
+    ak: ***REMOVED***
+    sk: ***REMOVED***
+  bucket:
+    header:
+      name: community-header20230903
+      url: http://s0e01j0jl.hn-bkt.clouddn.com
+    share:
+      name: community-share20230903
+      url: http://s0e0nk0k5.hn-bkt.clouddn.com
 
 

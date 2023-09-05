@@ -37,6 +37,11 @@ public class IndexController implements CommunityConstant {
     @Resource(name = "likeServiceImpl")
     private LikeService likeService;
 
+    // @GetMapping("/")
+    // public String root() {
+    //     return "forward:/index";
+    // }
+
     @GetMapping("/index")
     public String index(Model model, Page page,
                         @RequestParam(defaultValue = "0") int orderMode) {

@@ -56,12 +56,12 @@ public class LoginController implements CommunityConstant {
 
     @GetMapping("/register")
     public String getRegisterPage() {
-        return "/site/register";
+        return "site/register";
     }
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "/site/login";
+        return "site/login";
     }
 
     @PostMapping("/register")
@@ -70,12 +70,12 @@ public class LoginController implements CommunityConstant {
         if (map == null || map.isEmpty()) {
             model.addAttribute("msg", "注册成功，我们已向您的邮箱发送一封激活邮件，请尽快激活！");
             model.addAttribute("target", "/index");
-            return "/site/operate-result";
+            return "site/operate-result";
         } else {
             model.addAttribute("usernameMsg", map.get("usernameMsg"));
             model.addAttribute("passwordMsg", map.get("passwordMsg"));
             model.addAttribute("emailMsg", map.get("emailMsg"));
-            return "/site/register";
+            return "site/register";
         }
     }
 
@@ -98,7 +98,7 @@ public class LoginController implements CommunityConstant {
         }
         model.addAttribute("msg", msg);
         model.addAttribute("target", target);
-        return "/site/operate-result";
+        return "site/operate-result";
     }
 
     @GetMapping("/kaptcha")
@@ -144,7 +144,7 @@ public class LoginController implements CommunityConstant {
 
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) {
             model.addAttribute("codeMsg", "验证码不正确！");
-            return "/site/login";
+            return "site/login";
         }
 
         // 检查账号、密码
@@ -159,7 +159,7 @@ public class LoginController implements CommunityConstant {
         } else {
             model.addAttribute("usernameMsg", map.get("usernameMsg"));
             model.addAttribute("passwordMsg", map.get("passwordMsg"));
-            return "/site/login";
+            return "site/login";
         }
     }
 

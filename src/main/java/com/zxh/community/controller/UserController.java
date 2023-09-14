@@ -84,7 +84,7 @@ public class UserController implements CommunityConstant {
         model.addAttribute("uploadToken", uploadToken);
         model.addAttribute("fileName", fileName);
 
-        return "/site/setting";
+        return "site/setting";
     }
 
     // 更新头像路径
@@ -108,14 +108,14 @@ public class UserController implements CommunityConstant {
     public String uploadHeader(MultipartFile headerImage, Model model) {
         if (headerImage == null) {
             model.addAttribute("error", "您还没有选择图片！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         String filename = headerImage.getOriginalFilename();
         String suffix = filename.substring(filename.lastIndexOf("."));
         if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "文件格式不正确！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         // 生成随机文件名
@@ -173,15 +173,15 @@ public class UserController implements CommunityConstant {
         // 校验非空性
         if (StringUtils.isBlank(oldPwd)) {
             model.addAttribute("oldPwdMsg", "原密码不能为空！");
-            return "/site/setting";
+            return "site/setting";
         }
         if (StringUtils.isBlank(newPwd)) {
             model.addAttribute("newPwdMsg", "新密码不能为空！");
-            return "/site/setting";
+            return "site/setting";
         }
         if (StringUtils.isBlank(repeat)) {
             model.addAttribute("repeatMsg", "重复新密码不能为空！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         // 获取当前用户信息
@@ -191,19 +191,19 @@ public class UserController implements CommunityConstant {
         oldPwd = CommunityUtil.md5(oldPwd + user.getSalt());
         if (!oldPwd.equals(user.getPassword())) {
             model.addAttribute("oldPwdMsg", "原密码错误！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         if (!newPwd.equals(repeat)) {
             model.addAttribute("repeatMsg", "两次输入的密码不一致！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         newPwd = CommunityUtil.md5(newPwd + user.getSalt());
         // 校验newPwd
         if (newPwd.equals(oldPwd)) {
             model.addAttribute("newPwdMsg", "新密码不能与原密码相同！");
-            return "/site/setting";
+            return "site/setting";
         }
 
         // 更新密码
@@ -243,6 +243,6 @@ public class UserController implements CommunityConstant {
         model.addAttribute("hasFollowed", hasFollowed);
 
 
-        return "/site/profile";
+        return "site/profile";
     }
 }

@@ -70,7 +70,7 @@ public class MessageController implements CommunityConstant {
         int noticeUnreadCount = messageService.findNoticeUnreadCount(user.getId(), null);
         model.addAttribute("noticeUnreadCount", noticeUnreadCount);
 
-        return "/site/letter";
+        return "site/letter";
     }
 
     @GetMapping("/letter/detail/{conversationId}")
@@ -101,7 +101,7 @@ public class MessageController implements CommunityConstant {
             messageService.readMessage(ids);
         }
 
-        return "/site/letter-detail";
+        return "site/letter-detail";
     }
 
     private List<Integer> getLetterIds(List<Message> letterList) {
@@ -236,7 +236,7 @@ public class MessageController implements CommunityConstant {
         int noticeUnreadCount = messageService.findNoticeUnreadCount(user.getId(), null);
         model.addAttribute("noticeUnreadCount", noticeUnreadCount);
 
-        return "/site/notice";
+        return "site/notice";
     }
 
     @GetMapping("/notice/detail/{topic}")
@@ -275,6 +275,6 @@ public class MessageController implements CommunityConstant {
             messageService.readMessage(ids);
         }
 
-        return "/site/notice-detail";
+        return "site/notice-detail";
     }
 }

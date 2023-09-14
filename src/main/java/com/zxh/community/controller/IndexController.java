@@ -37,10 +37,10 @@ public class IndexController implements CommunityConstant {
     @Resource(name = "likeServiceImpl")
     private LikeService likeService;
 
-    // @GetMapping("/")
-    // public String root() {
-    //     return "forward:/index";
-    // }
+    @GetMapping("/")
+    public String root() {
+        return "forward:/index";
+    }
 
     @GetMapping("/index")
     public String index(Model model, Page page,
@@ -69,17 +69,17 @@ public class IndexController implements CommunityConstant {
         }
         model.addAttribute("discussPosts", discussPosts);
         model.addAttribute("orderMode", orderMode);
-        return "/index";
+        return "index";
     }
 
     @GetMapping("/error")
     public String getErrorPage() {
-        return "/error/500";
+        return "error/500";
     }
 
     // 拒绝访问(未获得授权)
     @GetMapping("/denied")
     public String getDeniedPage() {
-        return "/error/404";
+        return "error/404";
     }
 }

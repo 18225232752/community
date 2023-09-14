@@ -1,5 +1,6 @@
 package com.zxh.community.controller;
 
+import com.mchange.v1.identicator.IdList;
 import com.zxh.community.entity.Comment;
 import com.zxh.community.entity.DiscussPost;
 import com.zxh.community.entity.Event;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,10 +61,12 @@ public class CommentController implements CommunityConstant {
                 .setEntityId(comment.getEntityId())
                 .setData("postId", discussPostId);
         if (comment.getEntityType() == ENTITY_TYPE_POST) {
+            System.out.println("评论帖子");
             DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());
             event.setEntityUserId(target.getUserId());
         } else if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {
-            Comment target = commentService.findCommentById(comment.getId());
+            System.out.println("评论回复");
+            Comment target = commentService.findCommentById(comment.getEntityId());
             event.setEntityUserId(target.getUserId());
         }
         eventProducer.fireEvent(event);

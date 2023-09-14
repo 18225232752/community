@@ -36,7 +36,7 @@
           and entity_id = #{entityId}
     </select>
 
-    <insert id="insertComment">
+    <insert id="insertComment" keyProperty="id">
         insert into comment(<include refid="commentInsertColumn"/>)
             values (#{userId}, #{entityType}, #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
     </insert>

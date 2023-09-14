@@ -8,7 +8,7 @@ spring:
     cache: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/community?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/community?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: "***REMOVED***"
     type: com.zaxxer.hikari.HikariDataSource
@@ -42,7 +42,7 @@ spring:
   data:
     elasticsearch:
       cluster-name: nowcoder
-      cluster-nodes: localhost:9300
+      cluster-nodes: ***REMOVED***:9300
   task:
     execution:
       pool:
